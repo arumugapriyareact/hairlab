@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>HairLab - Reports</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Oswald:wght@600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+    <style>
+        /* Custom styles for webapp layout */
+        body {
+            overflow-x: hidden;
+        }
+
+        #sidebar-wrapper {
+            min-height: 100vh;
+            margin-left: -15rem;
+            transition: margin 0.25s ease-out;
+        }
+
+        #sidebar-wrapper .sidebar-heading {
+            padding: 0.875rem 1.25rem;
+            font-size: 1.2rem;
+        }
+
+        #sidebar-wrapper .list-group {
+            width: 15rem;
+        }
+
+        #page-content-wrapper {
+            min-width: 100vw;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        @media (min-width: 768px) {
+            #sidebar-wrapper {
+                margin-left: 0;
+            }
+
+            #page-content-wrapper {
+                min-width: 0;
+                width: 100%;
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: -15rem;
+            }
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #reportsTable {
+            width: 100% !important;
+        }
+
+        #reportsTable th,
+        #reportsTable td {
+            white-space: nowrap;
+        }
+
+        @media screen and (max-width: 767px) {
+            .table-responsive {
+                border: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-secondary border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading text-primary"><i class="fa fa-cut me-2"></i>HairLab</div>
+            <div class="list-group list-group-flush">
+                <a href="/dashboard.html" class="list-group-item list-group-item-action bg-secondary text-light">Dashboard</a>
+                <a href="/billing.html" class="list-group-item list-group-item-action bg-secondary text-light">Billing</a>
+                <a href="/customer.html" class="list-group-item list-group-item-action bg-secondary text-light">Customer</a>
+                <a href="/staff.html" class="list-group-item list-group-item-action bg-secondary text-light active">Staff</a>
+                <a href="/reports.html" class="list-group-item list-group-item-action bg-secondary text-light">Reports</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-secondary border-bottom header-section">
+                <button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <h1 class="mt-4">Reports</h1>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="bg-secondary p-5">
+                            <div class="table-responsive">
+                                <table id="reportsTable" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Customer Name</th>
+                                            <th>Phone Number</th>
+                                            <th>Services</th>
+                                            <th>Subtotal</th>
+                                            <th>GST</th>
+                                            <th>Grand Total</th>
+                                            <th>Cashback</th>
+                                            <th>Referral Bonus</th>
+                                            <th>Final Total</th>
+                                            <th>Payment Method</th>
+                                            <th>Amount Paid</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Table rows will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Toggle sidebar
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+
+            fetchReports();
+        });
+
+        async function fetchReports() {
+            try {
+                console.log('Fetching reports...');
+                const response = await fetch('http://localhost:5001/api/reports', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    },
+                });
+
+                console.log('Response status:', response.status);
+
+                if (!response.ok) {
+                    const errorBody = await response.text();
+                    console.error('Error response body:', errorBody);
+                    throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
+                }
+
+                const reports = await response.json();
+                console.log('Reports fetched successfully:', reports);
+                populateTable(reports);
+            } catch (error) {
+                console.error('Error fetching reports:', error);
+            }
+        }
+
+        function populateTable(reports) {
+            const table = $('#reportsTable').DataTable({
+                responsive: true,
+                scrollX: true,
+                order: [[11, 'desc']], // Sort by date descending
+                columnDefs: [
+                    { targets: [3, 4, 5, 6, 7, 8, 10], className: 'text-end' } // Right-align numeric columns
+                ],
+                autoWidth: false,
+                language: {
+                    searchPlaceholder: "Search reports"
+                },
+                dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                    '<"row"<"col-sm-12"tr>>' +
+                    '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            });
+            table.clear();
+
+            reports.forEach(report => {
+                table.row.add([
+                    report.customerName,
+                    report.phoneNumber,
+                    report.services.map(s => s.name).join(', '),
+                    `₹${report.subtotal.toFixed(2)}`,
+                    `₹${report.gst.toFixed(2)}`,
+                    `₹${report.grandTotal.toFixed(2)}`,
+                    `₹${report.cashback.toFixed(2)}`,
+                    `₹${report.referralBonus.toFixed(2)}`,
+                    `₹${report.finalTotal.toFixed(2)}`,
+                    report.paymentMethod,
+                    `₹${report.amountPaid.toFixed(2)}`,
+                    new Date(report.date).toLocaleString()
+                ]);
+            });
+
+            table.draw();
+        }
+
+        function logout() {
+            // Here you would typically clear any session data or perform any logout-related tasks
+            // For this example, we'll just redirect to the index.html page
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+
+</html>

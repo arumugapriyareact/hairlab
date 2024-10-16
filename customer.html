@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>HairLab - Create Customer</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Oswald:wght@600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        /* Custom styles for webapp layout */
+        body {
+            overflow-x: hidden;
+        }
+
+        #sidebar-wrapper {
+            min-height: 100vh;
+            margin-left: -15rem;
+            transition: margin 0.25s ease-out;
+        }
+
+        #sidebar-wrapper .sidebar-heading {
+            padding: 0.875rem 1.25rem;
+            font-size: 1.2rem;
+        }
+
+        #sidebar-wrapper .list-group {
+            width: 15rem;
+        }
+
+        #page-content-wrapper {
+            min-width: 100vw;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        @media (min-width: 768px) {
+            #sidebar-wrapper {
+                margin-left: 0;
+            }
+
+            #page-content-wrapper {
+                min-width: 0;
+                width: 100%;
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: -15rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-secondary border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading text-primary"><i class="fa fa-cut me-2"></i>HairLab</div>
+            <div class="list-group list-group-flush">
+                <a href="/dashboard.html" class="list-group-item list-group-item-action bg-secondary text-light">Dashboard</a>
+                <a href="/billing.html" class="list-group-item list-group-item-action bg-secondary text-light">Billing</a>
+                <a href="/customer.html" class="list-group-item list-group-item-action bg-secondary text-light">Customer</a>
+                <a href="/staff.html" class="list-group-item list-group-item-action bg-secondary text-light active">Staff</a>
+                <a href="/reports.html" class="list-group-item list-group-item-action bg-secondary text-light">Reports</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-secondary border-bottom">
+                <button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <h1 class="mt-4">Create Customer</h1>
+                <!-- Create Customer Form Start -->
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="bg-secondary p-5">
+                            <form id="createCustomerForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control bg-transparent" id="firstName" placeholder="First Name" required>
+                                            <label for="firstName">First Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control bg-transparent" id="lastName" placeholder="Last Name" required>
+                                            <label for="lastName">Last Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="tel" class="form-control bg-transparent" id="phoneNumber" placeholder="Phone Number" required>
+                                            <label for="phoneNumber">Phone Number</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="email" class="form-control bg-transparent" id="email" placeholder="Email">
+                                            <label for="email">Email (Optional)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control bg-transparent" placeholder="Address" id="address" style="height: 100px"></textarea>
+                                            <label for="address">Address (Optional)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="date" class="form-control bg-transparent" id="birthdate" placeholder="Birthdate">
+                                            <label for="birthdate">Birthdate (Optional)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select bg-transparent" id="gender" aria-label="Gender">
+                                                <option selected>Select gender</option>
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                                <option value="other">Other</option>
+                                                <option value="prefer_not_to_say">Prefer not to say</option>
+                                            </select>
+                                            <label for="gender">Gender (Optional)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control bg-transparent" placeholder="Notes" id="notes" style="height: 100px"></textarea>
+                                            <label for="notes">Additional Notes (Optional)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100 py-3" type="button" onclick="createCustomer()">Create Customer</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Create Customer Form End -->
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+
+    <script>
+        // Toggle sidebar
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+
+        async function createCustomer() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const email = document.getElementById('email').value;
+            const address = document.getElementById('address').value;
+            const birthdate = document.getElementById('birthdate').value;
+            const gender = document.getElementById('gender').value;
+            const notes = document.getElementById('notes').value;
+
+            if (!firstName || !lastName || !phoneNumber) {
+                alert('Please fill in all required fields (First Name, Last Name, and Phone Number).');
+                return;
+            }
+
+            const customerData = {
+                firstName,
+                lastName,
+                phoneNumber,
+                email,
+                address,
+                birthdate,
+                gender,
+                notes
+            };
+
+            try {
+                const response = await fetch('http://localhost:5001/api/customers', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(customerData),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to create customer');
+                }
+
+                const savedCustomer = await response.json();
+                console.log('Customer created:', savedCustomer);
+
+                // Clear the form
+                document.getElementById('createCustomerForm').reset();
+
+                alert('Customer created successfully!');
+            } catch (error) {
+                console.error('Error creating customer:', error);
+                alert('Failed to create the customer. Please try again.');
+            }
+        }
+
+        function logout() {
+            // Here you would typically clear any session data or perform any logout-related tasks
+            // For this example, we'll just redirect to the index.html page
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+
+</html>

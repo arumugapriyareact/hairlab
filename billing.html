@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>HairLab - Billing</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Oswald:wght@600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        /* Custom styles for webapp layout */
+        body {
+            overflow-x: hidden;
+        }
+
+        #sidebar-wrapper {
+            min-height: 100vh;
+            margin-left: -15rem;
+            transition: margin 0.25s ease-out;
+        }
+
+        #sidebar-wrapper .sidebar-heading {
+            padding: 0.875rem 1.25rem;
+            font-size: 1.2rem;
+        }
+
+        #sidebar-wrapper .list-group {
+            width: 15rem;
+        }
+
+        #page-content-wrapper {
+            min-width: 100vw;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        @media (min-width: 768px) {
+            #sidebar-wrapper {
+                margin-left: 0;
+            }
+
+            #page-content-wrapper {
+                min-width: 0;
+                width: 100%;
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: -15rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-secondary border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading text-primary"><i class="fa fa-cut me-2"></i>HairLab</div>
+            <div class="list-group list-group-flush">
+                <a href="/dashboard.html" class="list-group-item list-group-item-action bg-secondary text-light">Dashboard</a>
+                <a href="/billing.html" class="list-group-item list-group-item-action bg-secondary text-light">Billing</a>
+                <a href="/customer.html" class="list-group-item list-group-item-action bg-secondary text-light">Customer</a>
+                <a href="/staff.html" class="list-group-item list-group-item-action bg-secondary text-light active">Staff</a>
+                <a href="/reports.html" class="list-group-item list-group-item-action bg-secondary text-light">Reports</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-secondary border-bottom header-section">
+                <button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Logout</a>
+                        </li>
+                    </ul>
+                </div> -->
+                <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+                    <!-- <button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button> -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </nav>
+
+            <div class="container-fluid">
+                <h1 class="mt-4">Billing</h1>
+                <!-- Billing Form Start -->
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="bg-secondary p-5">
+                            <h2 class="text-uppercase mb-4">Salon Billing</h2>
+                            <form id="billingForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control bg-transparent" id="customerName"
+                                                placeholder="Customer Name">
+                                            <label for="customerName">Customer Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="tel" class="form-control bg-transparent" id="phoneNumber"
+                                                placeholder="Phone Number">
+                                            <label for="phoneNumber">Phone Number</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <select class="form-select bg-transparent" id="service"
+                                                aria-label="Select Service">
+                                                <option selected>Select a service</option>
+                                                <option value="100">Haircut - ₹100</option>
+                                                <option value="200">Hair Color - ₹200</option>
+                                                <option value="150">Manicure - ₹150</option>
+                                                <option value="250">Pedicure - ₹250</option>
+                                            </select>
+                                            <label for="service">Service</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100 py-3" type="button"
+                                            onclick="addService()">Add Service</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="mt-4">
+                                <h4>Services Added:</h4>
+                                <ul id="serviceList" class="list-group"></ul>
+                            </div>
+                            <div class="mt-4">
+                                <h4>Total:</h4>
+                                <p>Subtotal: ₹<span id="subtotal" class="highlight-red">0</span></p>
+                                <p>GST (18%): ₹<span id="gst" class="highlight-red">0</span></p>
+                                <h3>Grand Total: ₹<span id="grandTotal" class="highlight-red">0</span></h3>
+                            </div>
+                            <div class="mt-4">
+                                <h4>Payment Details:</h4>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control bg-transparent" id="cashback"
+                                                placeholder="Cashback">
+                                            <label for="cashback">Cashback (₹)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control bg-transparent" id="referralBonus"
+                                                placeholder="Referral Bonus">
+                                            <label for="referralBonus">Referral Bonus (₹)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select bg-transparent" id="paymentMethod">
+                                                <option selected>Select payment method</option>
+                                                <option value="cash">Cash</option>
+                                                <option value="upi">UPI</option>
+                                                <option value="wallet">Wallet</option>
+                                                <option value="card">Card</option>
+                                            </select>
+                                            <label for="paymentMethod">Payment Method</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control bg-transparent" id="amountPaid"
+                                                placeholder="Amount Paid">
+                                            <label for="amountPaid">Amount Paid (₹)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <h3>Final Total: ₹<span id="finalTotal" class="highlight-red">0</span></h3>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-primary w-100 py-3" type="button"
+                                    onclick="generateBill()">Generate Bill</button>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-success w-100 py-3" type="button"
+                                    onclick="generateInvoice()">Generate Invoice</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Billing Form End -->
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+
+    <script>
+        let services = [];
+        let subtotal = 0;
+
+        // Toggle sidebar
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+
+        function addService() {
+            const serviceSelect = document.getElementById('service');
+            const selectedService = serviceSelect.options[serviceSelect.selectedIndex];
+            const serviceName = selectedService.text;
+            const servicePrice = parseInt(selectedService.value);
+
+            if (servicePrice) {
+                services.push({ name: serviceName, price: servicePrice });
+                updateBill();
+                updateServiceList();
+            }
+        }
+
+        function updateServiceList() {
+            const serviceList = document.getElementById('serviceList');
+            serviceList.innerHTML = '';
+            services.forEach((service, index) => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                li.innerHTML = `
+                    ${service.name}
+                    <span>₹${service.price}</span>
+                    <button class="btn btn-danger btn-sm" onclick="removeService(${index})">Remove</button>
+                `;
+                serviceList.appendChild(li);
+            });
+        }
+
+        function removeService(index) {
+            services.splice(index, 1);
+            updateBill();
+            updateServiceList();
+        }
+
+        function updateBill() {
+            subtotal = services.reduce((total, service) => total + service.price, 0);
+            const gst = subtotal * 0.18;
+            const grandTotal = subtotal + gst;
+
+            const cashback = parseFloat(document.getElementById('cashback').value) || 0;
+            const referralBonus = parseFloat(document.getElementById('referralBonus').value) || 0;
+            const finalTotal = grandTotal - cashback - referralBonus;
+
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('gst').textContent = gst.toFixed(2);
+            document.getElementById('grandTotal').textContent = grandTotal.toFixed(2);
+            document.getElementById('finalTotal').textContent = finalTotal.toFixed(2);
+        }
+
+        // Add event listeners to cashback and referral bonus inputs
+        document.getElementById('cashback').addEventListener('input', updateBill);
+        document.getElementById('referralBonus').addEventListener('input', updateBill);
+
+
+        // function generateBill() {
+        //     const customerName = document.getElementById('customerName').value;
+        //     const phoneNumber = document.getElementById('phoneNumber').value;
+        //     const cashback = parseFloat(document.getElementById('cashback').value) || 0;
+        //     const referralBonus = parseFloat(document.getElementById('referralBonus').value) || 0;
+        //     const paymentMethod = document.getElementById('paymentMethod').value;
+        //     const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+
+        //     if (!customerName || !phoneNumber || services.length === 0 || !paymentMethod || amountPaid <= 0) {
+        //         alert('Please fill in all details, add at least one service, and provide payment information.');
+        //         return;
+        //     }
+
+        //     const grandTotal = parseFloat(document.getElementById('grandTotal').textContent);
+        //     const finalTotal = parseFloat(document.getElementById('finalTotal').textContent);
+
+        //     if (amountPaid < finalTotal) {
+        //         alert('The amount paid is less than the final total amount.');
+        //         return;
+        //     }
+
+        //     // Generate PDF
+        //     generatePDF(customerName, phoneNumber, paymentMethod, amountPaid);
+
+        //     // Clear all details
+        //     clearAllDetails();
+        // }
+
+        async function generateBill() {
+            const customerName = document.getElementById('customerName').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const cashback = parseFloat(document.getElementById('cashback').value) || 0;
+            const referralBonus = parseFloat(document.getElementById('referralBonus').value) || 0;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+
+            if (!customerName || !phoneNumber || services.length === 0 || !paymentMethod || amountPaid <= 0) {
+                alert('Please fill in all details, add at least one service, and provide payment information.');
+                return;
+            }
+
+            const grandTotal = parseFloat(document.getElementById('grandTotal').textContent);
+            const finalTotal = parseFloat(document.getElementById('finalTotal').textContent);
+
+            if (amountPaid < finalTotal) {
+                alert('The amount paid is less than the final total amount.');
+                return;
+            }
+
+            const billData = {
+                customerName,
+                phoneNumber,
+                services,
+                subtotal,
+                gst: subtotal * 0.18,
+                grandTotal,
+                cashback,
+                referralBonus,
+                finalTotal,
+                paymentMethod,
+                amountPaid
+            };
+
+            try {
+                const response = await fetch('http://localhost:5001/api/billing', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(billData),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save bill');
+                }
+
+                const savedBill = await response.json();
+                console.log('Bill saved:', savedBill);
+
+                // Generate PDF
+                generatePDF(customerName, phoneNumber, paymentMethod, amountPaid);
+
+                // Clear all details
+                clearAllDetails();
+
+                alert('Bill generated and saved successfully!');
+            } catch (error) {
+                console.error('Error saving bill:', error);
+                alert('Failed to save the bill. Please try again.');
+            }
+        }
+
+        function generatePDF(customerName, phoneNumber, paymentMethod, amountPaid) {
+            // Create a new jsPDF instance
+            const doc = new jspdf.jsPDF();
+
+            // Set font
+            doc.setFont("helvetica");
+
+            // Header
+            doc.setFontSize(22);
+            doc.setTextColor(0, 102, 204); // Blue color
+            doc.text('HairLab', 105, 20, null, null, 'center');
+            doc.setFontSize(12);
+            doc.setTextColor(102, 102, 102); // Gray color
+            doc.text('Professional Hair Salon', 105, 28, null, null, 'center');
+            doc.setFontSize(10);
+            doc.text('123 Main St, City, State 12345', 105, 34, null, null, 'center');
+            doc.text('Phone: (123) 456-7890', 105, 39, null, null, 'center');
+
+            // Customer Information
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0); // Black color
+            doc.text(`Bill To: ${customerName}`, 20, 55);
+            doc.text(`Phone: ${phoneNumber}`, 20, 61);
+            doc.text(`Date: ${new Date().toLocaleDateString()}`, 140, 55);
+            doc.text(`Invoice #: INV-${Math.floor(Math.random() * 10000)}`, 140, 61);
+
+            // Services Table
+            let startY = 75;
+            doc.autoTable({
+                startY: startY,
+                head: [['Service', 'Price']],
+                body: services.map(service => [service.name, `₹${service.price.toFixed(2)}`]),
+                theme: 'striped',
+                headStyles: { fillColor: [0, 102, 204], textColor: 255 },
+                columnStyles: {
+                    0: { cellWidth: 130 },
+                    1: { cellWidth: 50, halign: 'right' }
+                },
+            });
+
+            // Totals Table
+            startY = doc.lastAutoTable.finalY + 10;
+            const cashback = parseFloat(document.getElementById('cashback').value || 0);
+            const referralBonus = parseFloat(document.getElementById('referralBonus').value || 0);
+            const finalTotal = parseFloat(document.getElementById('finalTotal').textContent);
+
+            doc.autoTable({
+                startY: startY,
+                body: [
+                    ['Subtotal', `₹${subtotal.toFixed(2)}`],
+                    ['GST (18%)', `₹${(subtotal * 0.18).toFixed(2)}`],
+                    ['Grand Total', `₹${(subtotal * 1.18).toFixed(2)}`],
+                    ['Cashback', `₹${cashback.toFixed(2)}`],
+                    ['Referral Bonus', `₹${referralBonus.toFixed(2)}`],
+                    ['Final Total', `₹${finalTotal.toFixed(2)}`],
+                ],
+                theme: 'plain',
+                columnStyles: {
+                    0: { cellWidth: 130 },
+                    1: { cellWidth: 50, halign: 'right' }
+                },
+                styles: { fontSize: 11 },
+                foot: [['Payment Method', paymentMethod], ['Amount Paid', `₹${amountPaid.toFixed(2)}`]],
+                footStyles: { fillColor: [240, 240, 240] }
+            });
+
+            // Footer
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.setTextColor(128);
+                doc.text('Thank you for your business!', 105, 290, null, null, 'center');
+                doc.text(`Page ${i} of ${pageCount}`, 105, 295, null, null, 'center');
+            }
+
+            doc.save('HairLab_Bill.pdf');
+        }
+        function clearAllDetails() {
+            document.getElementById('billingForm').reset();
+            document.getElementById('cashback').value = '';
+            document.getElementById('referralBonus').value = '';
+            document.getElementById('paymentMethod').selectedIndex = 0;
+            document.getElementById('amountPaid').value = '';
+            services = [];
+            updateBill();
+            updateServiceList();
+        }
+        function generateInvoice() {
+            // Collect all the necessary data
+            const grandTotal = parseFloat(document.getElementById('grandTotal').textContent);
+            const cashback = parseFloat(document.getElementById('cashback').value) || 0;
+            const referralBonus = parseFloat(document.getElementById('referralBonus').value) || 0;
+            const finalTotal = parseFloat(document.getElementById('finalTotal').textContent);
+
+
+            const invoiceData = {
+                customerName: document.getElementById('customerName').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                services: services,
+                subtotal: subtotal,
+                gst: subtotal * 0.18,
+                grandTotal: grandTotal,
+                cashback: cashback,
+                referralBonus: referralBonus,
+                finalTotal: finalTotal,
+                paymentMethod: document.getElementById('paymentMethod').value,
+                amountPaid: parseFloat(document.getElementById('amountPaid').value) || 0
+            };
+
+            // Store the invoice data in sessionStorage
+            sessionStorage.setItem('invoiceData', JSON.stringify(invoiceData));
+
+            clearAllDetails();
+
+            // Redirect to the invoice.html page
+            window.location.href = 'invoice.html';
+        }
+        function logout() {
+            // Here you would typically clear any session data or perform any logout-related tasks
+            // For this example, we'll just redirect to the index.html page
+            window.location.href = 'index.html';
+        }
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.20/jspdf.plugin.autotable.min.js"></script>
+</body>
+
+</html>

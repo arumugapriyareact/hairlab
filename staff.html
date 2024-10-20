@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>HairLab - Add Staff</title>
+    <title>HairLab - Staff Management</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -20,6 +20,7 @@
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
     <link href="lib/animate/animate.min.css" rel="stylesheet">
@@ -74,6 +75,95 @@
                 margin-left: -15rem;
             }
         }
+
+        .table-responsive {
+            margin-top: 20px;
+        }
+
+        .action-buttons .btn {
+            margin-right: 5px;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #staffTable {
+            width: 100% !important;
+            margin-bottom: 0;
+        }
+
+        .dataTables_wrapper .row:first-child,
+        .dataTables_wrapper .row:last-child {
+            margin: 10px 0;
+        }
+
+        .dataTables_empty {
+            text-align: center;
+        }
+
+        .table-responsive {
+            min-height: 300px;
+            /* Adjust as needed */
+        }
+
+        #staffTable th,
+        #staffTable td {
+            white-space: nowrap;
+        }
+
+        @media screen and (max-width: 767px) {
+            .table-responsive {
+                border: none;
+            }
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
     </style>
 </head>
 
@@ -83,11 +173,23 @@
         <div class="bg-secondary border-right" id="sidebar-wrapper">
             <div class="sidebar-heading text-primary"><i class="fa fa-cut me-2"></i>HairLab</div>
             <div class="list-group list-group-flush">
-                <a href="/dashboard.html" class="list-group-item list-group-item-action bg-secondary text-light">Dashboard</a>
-                <a href="/billing.html" class="list-group-item list-group-item-action bg-secondary text-light">Billing</a>
-                <a href="/customer.html" class="list-group-item list-group-item-action bg-secondary text-light">Customer</a>
-                <a href="/staff.html" class="list-group-item list-group-item-action bg-secondary text-light active">Staff</a>
-                <a href="/reports.html" class="list-group-item list-group-item-action bg-secondary text-light">Reports</a>
+                <a href="/dashboard.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Dashboard</a>
+                <a href="/customer.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Customer</a>
+                <a href="/staff.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light active">Staff</a>
+
+                <a href="/addServices.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Services</a>
+                <a href="/appointment.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Appointments</a>
+                <a href="/products.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Products</a>
+                <a href="/billing.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Billing</a>
+                <a href="/reports.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Reports</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -111,183 +213,425 @@
             </nav>
 
             <div class="container-fluid">
-                <h1 class="mt-4">Add Staff</h1>
-                <!-- Add Staff Form Start -->
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="bg-secondary p-5">
-                            <form id="addStaffForm">
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control bg-transparent" id="firstName" placeholder="First Name" required>
-                                            <label for="firstName">First Name</label>
+                <h1 class="mt-4">Staff Management</h1>
+
+                <!-- Tab Navigation -->
+                <ul class="nav nav-tabs" id="staffTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="add-staff-tab" data-bs-toggle="tab"
+                            data-bs-target="#add-staff" type="button" role="tab" aria-controls="add-staff"
+                            aria-selected="true">Add Staff</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="list-staff-tab" data-bs-toggle="tab" data-bs-target="#list-staff"
+                            type="button" role="tab" aria-controls="list-staff" aria-selected="false">Staff List
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="staffTabsContent">
+                    <!-- Add Staff Tab -->
+                    <div class="tab-pane fade show active" id="add-staff" role="tabpanel"
+                        aria-labelledby="add-staff-tab">
+                        <div class="row mt-3">
+                            <div class="col-lg-8">
+                                <div class="bg-secondary p-5">
+                                    <form id="createStaffForm">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control bg-transparent"
+                                                        id="firstName" placeholder="First Name" required>
+                                                    <label for="firstName">First Name</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control bg-transparent" id="lastName"
+                                                        placeholder="Last Name" required>
+                                                    <label for="lastName">Last Name</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="tel" class="form-control bg-transparent"
+                                                        id="phoneNumber" placeholder="Phone Number" required>
+                                                    <label for="phoneNumber">Phone Number</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="email" class="form-control bg-transparent" id="email"
+                                                        placeholder="Email" required>
+                                                    <label for="email">Email</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-floating">
+                                                    <select class="form-select bg-transparent" id="role" required>
+                                                        <option value="" selected disabled>Select a role</option>
+                                                        <option value="Hair Stylist">Hair Stylist</option>
+                                                        <option value="Barber">Barber</option>
+                                                        <option value="Colorist">Colorist</option>
+                                                        <option value="Nail Technician">Nail Technician</option>
+                                                        <option value="Esthetician">Esthetician</option>
+                                                        <option value="Massage Therapist">Massage Therapist</option>
+                                                        <option value="Makeup Artist">Makeup Artist</option>
+                                                        <option value="Receptionist">Receptionist</option>
+                                                        <option value="Salon Manager">Salon Manager</option>
+                                                        <option value="Other">Other</option>
+                                                    </select>
+                                                    <label for="role">Role</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="date" class="form-control bg-transparent" id="hireDate"
+                                                        placeholder="Hire Date" required>
+                                                    <label for="hireDate">Hire Date</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="number" class="form-control bg-transparent" id="salary"
+                                                        placeholder="Salary" required>
+                                                    <label for="salary">Salary</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="availability" checked>
+                                                        <label class="form-check-label"
+                                                            for="availability">Available</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating">
+                                                    <textarea class="form-control bg-transparent" placeholder="Notes"
+                                                        id="notes" style="height: 100px"></textarea>
+                                                    <label for="notes">Additional Notes (Optional)</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="btn btn-primary w-100 py-3" type="button"
+                                                    onclick="createStaff()">Create Staff</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control bg-transparent" id="lastName" placeholder="Last Name" required>
-                                            <label for="lastName">Last Name</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="tel" class="form-control bg-transparent" id="phoneNumber" placeholder="Phone Number" required>
-                                            <label for="phoneNumber">Phone Number</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="email" class="form-control bg-transparent" id="email" placeholder="Email" required>
-                                            <label for="email">Email</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            <textarea class="form-control bg-transparent" placeholder="Address" id="address" style="height: 100px"></textarea>
-                                            <label for="address">Address</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="date" class="form-control bg-transparent" id="dateOfBirth" placeholder="Date of Birth" required>
-                                            <label for="dateOfBirth">Date of Birth</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <select class="form-select bg-transparent" id="role" aria-label="Role" required>
-                                                <option selected disabled value="">Select role</option>
-                                                <option value="stylist">Stylist</option>
-                                                <option value="colorist">Colorist</option>
-                                                <option value="assistant">Assistant</option>
-                                                <option value="receptionist">Receptionist</option>
-                                                <option value="manager">Manager</option>
-                                            </select>
-                                            <label for="role">Role</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="date" class="form-control bg-transparent" id="startDate" placeholder="Start Date" required>
-                                            <label for="startDate">Start Date</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="number" class="form-control bg-transparent" id="salary" placeholder="Salary" required>
-                                            <label for="salary">Salary</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            <textarea class="form-control bg-transparent" placeholder="Skills and Qualifications" id="skills" style="height: 100px"></textarea>
-                                            <label for="skills">Skills and Qualifications</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            <textarea class="form-control bg-transparent" placeholder="Additional Notes" id="notes" style="height: 100px"></textarea>
-                                            <label for="notes">Additional Notes</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3" type="button" onclick="addStaff()">Add Staff Member</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- List Staff Tab -->
+                    <div class="tab-pane fade" id="list-staff" role="tabpanel" aria-labelledby="list-staff-tab">
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="bg-secondary p-5">
+                                    <div class="table-responsive">
+                                        <table id="staffTable" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Phone Number</th>
+                                                    <th>Email</th>
+                                                    <th>Hire Date</th>
+                                                    <th>Salary</th>
+                                                    <th>Available</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Table rows will be populated dynamically -->
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- Add Staff Form End -->
             </div>
+            <!-- /#page-content-wrapper -->
         </div>
-        <!-- /#page-content-wrapper -->
-    </div>
-    <!-- /#wrapper -->
+        <!-- /#wrapper -->
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/wow/wow.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
+        <script>
+            let staffTable;
 
-    <script>
-        // Toggle sidebar
-        $("#menu-toggle").click(function (e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-
-        async function addStaff() {
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const phoneNumber = document.getElementById('phoneNumber').value;
-            const email = document.getElementById('email').value;
-            const address = document.getElementById('address').value;
-            const dateOfBirth = document.getElementById('dateOfBirth').value;
-            const role = document.getElementById('role').value;
-            const startDate = document.getElementById('startDate').value;
-            const salary = document.getElementById('salary').value;
-            const skills = document.getElementById('skills').value;
-            const notes = document.getElementById('notes').value;
-
-            if (!firstName || !lastName || !phoneNumber || !email || !dateOfBirth || !role || !startDate || !salary) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-
-            const staffData = {
-                firstName,
-                lastName,
-                phoneNumber,
-                email,
-                address,
-                dateOfBirth,
-                role,
-                startDate,
-                salary,
-                skills,
-                notes
-            };
-
-            try {
-                const response = await fetch('http://localhost:5001/api/staff', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(staffData),
+            $(document).ready(function () {
+                // Toggle sidebar
+                $("#menu-toggle").click(function (e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("toggled");
                 });
 
-                if (!response.ok) {
-                    throw new Error('Failed to add staff member');
+                // Initialize DataTable
+                staffTable = $('#staffTable').DataTable({
+                    responsive: true,
+                    scrollX: true,
+                    order: [[0, 'asc']], // Sort by first name ascending
+                    columnDefs: [
+                        { targets: 7, orderable: false } // Disable sorting for the Actions column
+                    ],
+                    autoWidth: false,
+                    language: {
+                        searchPlaceholder: "Search staff"
+                    },
+                    dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                        '<"row"<"col-sm-12"tr>>' +
+                        '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+                });
+
+                // Fetch staff when the list tab is shown
+                $('#list-staff-tab').on('shown.bs.tab', function (e) {
+                    fetchStaff();
+                });
+            });
+
+            async function createStaff() {
+                const firstName = document.getElementById('firstName').value;
+                const lastName = document.getElementById('lastName').value;
+                const phoneNumber = document.getElementById('phoneNumber').value;
+                const email = document.getElementById('email').value;
+                const hireDate = document.getElementById('hireDate').value;
+                const salary = document.getElementById('salary').value;
+                const notes = document.getElementById('notes').value;
+                const availability = document.getElementById('availability').checked
+
+                if (!firstName || !lastName || !phoneNumber || !email || !hireDate || !salary) {
+                    alert('Please fill in all required fields.');
+                    return;
                 }
 
-                const savedStaff = await response.json();
-                console.log('Staff member added:', savedStaff);
+                const staffData = {
+                    firstName,
+                    lastName,
+                    phoneNumber,
+                    email,
+                    hireDate,
+                    salary: parseFloat(salary),
+                    availability,
+                    notes
+                };
 
-                // Clear the form
-                document.getElementById('addStaffForm').reset();
+                try {
+                    const response = await fetch('http://localhost:5001/api/staff', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(staffData),
+                    });
 
-                alert('Staff member added successfully!');
-            } catch (error) {
-                console.error('Error adding staff member:', error);
-                alert('Failed to add the staff member. Please try again.');
+                    if (!response.ok) {
+                        throw new Error('Failed to create staff member');
+                    }
+
+                    const savedStaff = await response.json();
+                    console.log('Staff member created:', savedStaff);
+
+                    // Clear the form
+                    document.getElementById('createStaffForm').reset();
+
+                    alert('Staff member created successfully!');
+
+                    // Refresh the staff list and switch to the list tab
+                    fetchStaff();
+                    document.getElementById('list-staff-tab').click();
+                } catch (error) {
+                    console.error('Error creating staff member:', error);
+                    alert('Failed to create the staff member. Please try again.');
+                }
             }
-        }
 
-        function logout() {
-            // Here you would typically clear any session data or perform any logout-related tasks
-            // For this example, we'll just redirect to the index.html page
-            window.location.href = 'index.html';
-        }
-    </script>
+            async function fetchStaff() {
+                try {
+                    const response = await fetch('http://localhost:5001/api/staff');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch staff');
+                    }
+                    const staff = await response.json();
+                    displayStaff(staff);
+                } catch (error) {
+                    console.error('Error fetching staff:', error);
+                    alert('Failed to fetch staff. Please try again.');
+                }
+            }
+
+            function displayStaff(staff) {
+                staffTable.clear();
+
+                staff.forEach(member => {
+                    staffTable.row.add([
+                        member.firstName,
+                        member.lastName,
+                        member.phoneNumber,
+                        member.email,
+                        new Date(member.hireDate).toLocaleDateString(),
+                        member.salary.toFixed(2),
+                        `<label class="switch">
+                        <input type="checkbox" ${member.availability ? 'checked' : ''} onchange="updateAvailability('${member._id}', this.checked)">
+                        <span class="slider"></span>
+                    </label>`,
+                        `<button class="btn btn-sm btn-primary" onclick="editStaff('${member._id}')">Edit</button>
+                         <button class="btn btn-sm btn-danger" onclick="deleteStaff('${member._id}')">Delete</button>`
+                    ]);
+                });
+
+                staffTable.draw();
+            }
+
+            async function editStaff(staffId) {
+                try {
+                    const response = await fetch(`http://localhost:5001/api/staff/${staffId}`);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch staff member details');
+                    }
+                    const staff = await response.json();
+
+                    // Populate the form with staff member details
+                    document.getElementById('firstName').value = staff.firstName;
+                    document.getElementById('lastName').value = staff.lastName;
+                    document.getElementById('phoneNumber').value = staff.phoneNumber;
+                    document.getElementById('email').value = staff.email;
+                    document.getElementById('hireDate').value = new Date(staff.hireDate).toISOString().split('T')[0];
+                    document.getElementById('salary').value = staff.salary;
+                    document.getElementById('availability').checked = staff.availability;
+                    document.getElementById('notes').value = staff.notes || '';
+
+                    // Change the create button to an update button
+                    const submitButton = document.querySelector('#createStaffForm button[type="button"]');
+                    submitButton.textContent = 'Update Staff';
+                    submitButton.onclick = () => updateStaff(staffId);
+
+                    // Switch to the add/edit staff tab
+                    document.getElementById('add-staff-tab').click();
+                } catch (error) {
+                    console.error('Error fetching staff member details:', error);
+                    alert('Failed to fetch staff member details. Please try again.');
+                }
+            }
+
+            async function updateStaff(staffId) {
+                const staffData = {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    phoneNumber: document.getElementById('phoneNumber').value,
+                    email: document.getElementById('email').value,
+                    hireDate: document.getElementById('hireDate').value,
+                    salary: parseFloat(document.getElementById('salary').value),
+                    notes: document.getElementById('notes').value,
+                    availability: document.getElementById('availability').checked,
+                };
+
+                try {
+                    const response = await fetch(`http://localhost:5001/api/staff/${staffId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(staffData),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to update staff member');
+                    }
+
+                    alert('Staff member updated successfully!');
+
+                    // Reset the form and button
+                    document.getElementById('createStaffForm').reset();
+                    const submitButton = document.querySelector('#createStaffForm button[type="button"]');
+                    submitButton.textContent = 'Create Staff';
+                    submitButton.onclick = createStaff;
+
+                    // Refresh the staff list and switch to the list tab
+                    fetchStaff();
+                    document.getElementById('list-staff-tab').click();
+                } catch (error) {
+                    console.error('Error updating staff member:', error);
+                    alert('Failed to update the staff member. Please try again.');
+                }
+            }
+
+            async function updateAvailability(staffId, availability) {
+                try {
+                    const response = await fetch(`http://localhost:5001/api/staff/${staffId}/availability`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ availability }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to update staff availability');
+                    }
+
+                    console.log('Staff availability updated successfully');
+                    // Optionally refresh the staff list to reflect the change
+                    fetchStaff();
+                } catch (error) {
+                    console.error('Error updating staff availability:', error);
+                    alert('Failed to update staff availability. This might be due to a CORS issue. Please check the console for more details.');
+                    // Revert the toggle if the update failed
+                    event.target.checked = !availability;
+                }
+            }
+
+            async function deleteStaff(staffId) {
+                if (confirm('Are you sure you want to delete this staff member?')) {
+                    try {
+                        const response = await fetch(`http://localhost:5001/api/staff/${staffId}`, {
+                            method: 'DELETE',
+                        });
+                        if (!response.ok) {
+                            throw new Error('Failed to delete staff member');
+                        }
+                        fetchStaff(); // Refresh the staff list
+                        alert('Staff member deleted successfully.');
+                    } catch (error) {
+                        console.error('Error deleting staff member:', error);
+                        alert('Failed to delete the staff member. Please try again.');
+                    }
+                }
+            }
+
+            function logout() {
+                // Here you would typically clear any session data or perform any logout-related tasks
+                // For this example, we'll just redirect to the index.html page
+                window.location.href = 'index.html';
+            }
+
+            // Fetch staff when the list tab is shown
+            document.getElementById('list-staff-tab').addEventListener('shown.bs.tab', fetchStaff);
+
+            // Initialize the page
+            document.addEventListener('DOMContentLoaded', function () {
+                // Fetch staff initially if we're on the list tab
+                if (document.querySelector('#list-staff-tab.active')) {
+                    fetchStaff();
+                }
+            });
+        </script>
 </body>
 
 </html>

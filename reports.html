@@ -107,11 +107,21 @@
         <div class="bg-secondary border-right" id="sidebar-wrapper">
             <div class="sidebar-heading text-primary"><i class="fa fa-cut me-2"></i>HairLab</div>
             <div class="list-group list-group-flush">
-                <a href="/dashboard.html" class="list-group-item list-group-item-action bg-secondary text-light">Dashboard</a>
-                <a href="/billing.html" class="list-group-item list-group-item-action bg-secondary text-light">Billing</a>
-                <a href="/customer.html" class="list-group-item list-group-item-action bg-secondary text-light">Customer</a>
-                <a href="/staff.html" class="list-group-item list-group-item-action bg-secondary text-light active">Staff</a>
-                <a href="/reports.html" class="list-group-item list-group-item-action bg-secondary text-light">Reports</a>
+                <a href="/dashboard.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Dashboard</a>
+                <a href="/customer.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Customer</a>
+                <a href="/staff.html" class="list-group-item list-group-item-action bg-secondary text-light">Staff</a>
+                <a href="/addServices.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Services</a>
+                <a href="/appointment.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Appointments</a>
+                <a href="/products.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Products</a>
+                <a href="/billing.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Billing</a>
+                <a href="/reports.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light active">Reports</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -136,31 +146,149 @@
 
             <div class="container-fluid">
                 <h1 class="mt-4">Reports</h1>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="bg-secondary p-5">
-                            <div class="table-responsive">
-                                <table id="reportsTable" class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Customer Name</th>
-                                            <th>Phone Number</th>
-                                            <th>Services</th>
-                                            <th>Subtotal</th>
-                                            <th>GST</th>
-                                            <th>Grand Total</th>
-                                            <th>Cashback</th>
-                                            <th>Referral Bonus</th>
-                                            <th>Final Total</th>
-                                            <th>Payment Method</th>
-                                            <th>Amount Paid</th>
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Table rows will be populated dynamically -->
-                                    </tbody>
-                                </table>
+
+                <!-- Tab Navigation -->
+                <ul class="nav nav-tabs" id="reportTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="list-reports-tab" data-bs-toggle="tab"
+                            data-bs-target="#list-reports" type="button" role="tab" aria-controls="list-reports"
+                            aria-selected="true">Reports List</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="add-edit-report-tab" data-bs-toggle="tab"
+                            data-bs-target="#add-edit-report" type="button" role="tab" aria-controls="add-edit-report"
+                            aria-selected="false">Add/Edit Report</button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="reportTabsContent">
+                    <!-- Reports List Tab -->
+                    <div class="tab-pane fade show active" id="list-reports" role="tabpanel"
+                        aria-labelledby="list-reports-tab">
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="bg-secondary p-5">
+                                    <div class="table-responsive">
+                                        <table id="reportsTable" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Customer Name</th>
+                                                    <th>Phone Number</th>
+                                                    <th>Services</th>
+                                                    <th>Subtotal</th>
+                                                    <th>GST</th>
+                                                    <th>Grand Total</th>
+                                                    <th>Cashback</th>
+                                                    <th>Referral Bonus</th>
+                                                    <th>Final Total</th>
+                                                    <th>Payment Method</th>
+                                                    <th>Amount Paid</th>
+                                                    <th>Date</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Table rows will be populated dynamically -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add/Edit Report Tab -->
+                    <div class="tab-pane fade" id="add-edit-report" role="tabpanel"
+                        aria-labelledby="add-edit-report-tab">
+                        <div class="row mt-3">
+                            <div class="col-lg-8">
+                                <div class="bg-secondary p-5">
+                                    <form id="reportForm">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control bg-transparent"
+                                                        id="customerName" required>
+                                                    <label for="customerName">Customer Name</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="tel" class="form-control bg-transparent"
+                                                        id="phoneNumber" required>
+                                                    <label for="phoneNumber">Phone Number</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control bg-transparent" id="services"
+                                                        required>
+                                                    <label for="services">Services (comma-separated)</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="number" step="0.01" class="form-control bg-transparent"
+                                                        id="subtotal" required>
+                                                    <label for="subtotal">Subtotal</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="number" step="0.01" class="form-control bg-transparent"
+                                                        id="gst" required>
+                                                    <label for="gst">GST</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="number" step="0.01" class="form-control bg-transparent"
+                                                        id="cashback" required>
+                                                    <label for="cashback">Cashback</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="number" step="0.01" class="form-control bg-transparent"
+                                                        id="referralBonus" required>
+                                                    <label for="referralBonus">Referral Bonus</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <select class="form-select bg-transparent" id="paymentMethod"
+                                                        required>
+                                                        <option value="" selected disabled>Select payment method
+                                                        </option>
+                                                        <option value="Cash">Cash</option>
+                                                        <option value="Card">Card</option>
+                                                        <option value="UPI">UPI</option>
+                                                    </select>
+                                                    <label for="paymentMethod">Payment Method</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="number" step="0.01" class="form-control bg-transparent"
+                                                        id="amountPaid" required>
+                                                    <label for="amountPaid">Amount Paid</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="datetime-local" class="form-control bg-transparent"
+                                                        id="date" required>
+                                                    <label for="date">Date and Time</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="btn btn-primary w-100 py-3" type="button"
+                                                    id="submitReport">Add Report</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -185,6 +313,9 @@
     <script src="js/main.js"></script>
 
     <script>
+        let reportsTable;
+        let currentReportId = null;
+
         $(document).ready(function () {
             // Toggle sidebar
             $("#menu-toggle").click(function (e) {
@@ -192,7 +323,34 @@
                 $("#wrapper").toggleClass("toggled");
             });
 
+            // Initialize DataTable
+            reportsTable = $('#reportsTable').DataTable({
+                responsive: true,
+                scrollX: true,
+                order: [[11, 'desc']], // Sort by date descending
+                columnDefs: [
+                    { targets: [3, 4, 5, 6, 7, 8, 10], className: 'text-end' }, // Right-align numeric columns
+                    { targets: 12, orderable: false } // Disable sorting for the Actions column
+                ],
+                autoWidth: false,
+                language: {
+                    searchPlaceholder: "Search reports"
+                },
+                dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                    '<"row"<"col-sm-12"tr>>' +
+                    '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            });
+
             fetchReports();
+
+            // Set up event listener for form submission
+            $('#submitReport').click(function () {
+                if (currentReportId) {
+                    updateReport(currentReportId);
+                } else {
+                    addReport();
+                }
+            });
         });
 
         async function fetchReports() {
@@ -222,25 +380,10 @@
         }
 
         function populateTable(reports) {
-            const table = $('#reportsTable').DataTable({
-                responsive: true,
-                scrollX: true,
-                order: [[11, 'desc']], // Sort by date descending
-                columnDefs: [
-                    { targets: [3, 4, 5, 6, 7, 8, 10], className: 'text-end' } // Right-align numeric columns
-                ],
-                autoWidth: false,
-                language: {
-                    searchPlaceholder: "Search reports"
-                },
-                dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
-                    '<"row"<"col-sm-12"tr>>' +
-                    '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-            });
-            table.clear();
+            reportsTable.clear();
 
             reports.forEach(report => {
-                table.row.add([
+                reportsTable.row.add([
                     report.customerName,
                     report.phoneNumber,
                     report.services.map(s => s.name).join(', '),
@@ -252,11 +395,143 @@
                     `₹${report.finalTotal.toFixed(2)}`,
                     report.paymentMethod,
                     `₹${report.amountPaid.toFixed(2)}`,
-                    new Date(report.date).toLocaleString()
+                    new Date(report.date).toLocaleString(),
+                    `<button class="btn btn-sm btn-primary" onclick="editReport('${report._id}')">Edit</button>
+             <button class="btn btn-sm btn-danger" onclick="deleteReport('${report._id}')">Delete</button>`
                 ]);
             });
 
-            table.draw();
+            reportsTable.draw();
+        }
+
+        async function addReport() {
+            const reportData = getReportDataFromForm();
+
+            try {
+                const response = await fetch('http://localhost:5001/api/reports', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(reportData),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to add report');
+                }
+
+                const savedReport = await response.json();
+                console.log('Report added:', savedReport);
+
+                // Clear the form
+                document.getElementById('reportForm').reset();
+
+                alert('Report added successfully!');
+
+                // Refresh the report list and switch to the list tab
+                fetchReports();
+                document.getElementById('list-reports-tab').click();
+            } catch (error) {
+                console.error('Error adding report:', error);
+                alert('Failed to add the report. Please try again.');
+            }
+        }
+
+        async function editReport(reportId) {
+            try {
+                const response = await fetch(`http://localhost:5001/api/reports/${reportId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch report details');
+                }
+                const report = await response.json();
+
+                // Populate the form with report details
+                document.getElementById('customerName').value = report.customerName;
+                document.getElementById('phoneNumber').value = report.phoneNumber;
+                document.getElementById('services').value = report.services.map(s => s.name).join(', ');
+                document.getElementById('subtotal').value = report.subtotal;
+                document.getElementById('gst').value = report.gst;
+                document.getElementById('cashback').value = report.cashback;
+                document.getElementById('referralBonus').value = report.referralBonus;
+                document.getElementById('paymentMethod').value = report.paymentMethod;
+                document.getElementById('amountPaid').value = report.amountPaid;
+                document.getElementById('date').value = new Date(report.date).toISOString().slice(0, 16);
+
+                // Change the button text and set the current report ID
+                document.getElementById('submitReport').textContent = 'Update Report';
+                currentReportId = reportId;
+
+                // Switch to the add/edit report tab
+                document.getElementById('add-edit-report-tab').click();
+            } catch (error) {
+                console.error('Error fetching report details:', error);
+                alert('Failed to fetch report details. Please try again.');
+            }
+        }
+
+        async function updateReport(reportId) {
+            const reportData = getReportDataFromForm();
+
+            try {
+                const response = await fetch(`http://localhost:5001/api/reports/${reportId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(reportData),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update report');
+                }
+
+                alert('Report updated successfully!');
+
+                // Reset the form and button
+                document.getElementById('reportForm').reset();
+                document.getElementById('submitReport').textContent = 'Add Report';
+                currentReportId = null;
+
+                // Refresh the report list and switch to the list tab
+                fetchReports();
+                document.getElementById('list-reports-tab').click();
+            } catch (error) {
+                console.error('Error updating report:', error);
+                alert('Failed to update the report. Please try again.');
+            }
+        }
+
+        async function deleteReport(reportId) {
+            if (confirm('Are you sure you want to delete this report?')) {
+                try {
+                    const response = await fetch(`http://localhost:5001/api/reports/${reportId}`, {
+                        method: 'DELETE',
+                    });
+                    if (!response.ok) {
+                        throw new Error('Failed to delete report');
+                    }
+                    fetchReports(); // Refresh the report list
+                    alert('Report deleted successfully.');
+                } catch (error) {
+                    console.error('Error deleting report:', error);
+                    alert('Failed to delete the report. Please try again.');
+                }
+            }
+        }
+
+        function getReportDataFromForm() {
+            return {
+                customerName: document.getElementById('customerName').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                services: document.getElementById('services').value.split(',').map(s => ({ name: s.trim() })),
+                subtotal: parseFloat(document.getElementById('subtotal').value),
+                gst: parseFloat(document.getElementById('gst').value),
+                cashback: parseFloat(document.getElementById('cashback').value),
+                referralBonus: parseFloat(document.getElementById('referralBonus').value),
+                paymentMethod: document.getElementById('paymentMethod').value,
+                amountPaid: parseFloat(document.getElementById('amountPaid').value),
+                date: document.getElementById('date').value
+            };
         }
 
         function logout() {

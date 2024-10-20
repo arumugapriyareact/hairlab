@@ -83,11 +83,21 @@
         <div class="bg-secondary border-right" id="sidebar-wrapper">
             <div class="sidebar-heading text-primary"><i class="fa fa-cut me-2"></i>HairLab</div>
             <div class="list-group list-group-flush">
-                <a href="/dashboard.html" class="list-group-item list-group-item-action bg-secondary text-light">Dashboard</a>
-                <a href="/billing.html" class="list-group-item list-group-item-action bg-secondary text-light">Billing</a>
-                <a href="/customer.html" class="list-group-item list-group-item-action bg-secondary text-light">Customer</a>
-                <a href="/staff.html" class="list-group-item list-group-item-action bg-secondary text-light active">Staff</a>
-                <a href="/reports.html" class="list-group-item list-group-item-action bg-secondary text-light">Reports</a>
+                <a href="/dashboard.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Dashboard</a>
+                <a href="/customer.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Customer</a>
+                <a href="/staff.html" class="list-group-item list-group-item-action bg-secondary text-light">Staff</a>
+                <a href="/addServices.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Services</a>
+                <a href="/appointment.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Appointments</a>
+                <a href="/products.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Products</a>
+                <a href="/billing.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light active">Billing</a>
+                <a href="/reports.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Reports</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -131,16 +141,8 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="bg-secondary p-5">
-                            <h2 class="text-uppercase mb-4">Salon Billing</h2>
                             <form id="billingForm">
                                 <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control bg-transparent" id="customerName"
-                                                placeholder="Customer Name">
-                                            <label for="customerName">Customer Name</label>
-                                        </div>
-                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <input type="tel" class="form-control bg-transparent" id="phoneNumber"
@@ -148,22 +150,86 @@
                                             <label for="phoneNumber">Phone Number</label>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control bg-transparent" id="firstName"
+                                                placeholder="First Name">
+                                            <label for="firstName">First Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control bg-transparent" id="lastName"
+                                                placeholder="Last Name">
+                                            <label for="lastName">Last Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control bg-transparent" id="email"
+                                                placeholder="Email">
+                                            <label for="email">Email</label>
+                                        </div>
+                                    </div>
+                                    <!-- Customer details will be displayed here -->
+                                    <!-- <div id="customerDetails" class="col-12" style="display: none;">
+                                        <p><strong>Email:</strong> <span id="customerEmail"></span></p>
+                                        <p><strong>Address:</strong> <span id="customerAddress"></span></p>
+                                        <p><strong>Birthdate:</strong> <span id="customerBirthdate"></span></p>
+                                        <p><strong>Gender:</strong> <span id="customerGender"></span></p>
+                                    </div> -->
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <select class="form-select bg-transparent" id="service"
-                                                aria-label="Select Service">
+                                            <select class="form-select bg-transparent" id="service">
                                                 <option selected>Select a service</option>
-                                                <option value="100">Haircut - ₹100</option>
-                                                <option value="200">Hair Color - ₹200</option>
-                                                <option value="150">Manicure - ₹150</option>
-                                                <option value="250">Pedicure - ₹250</option>
                                             </select>
                                             <label for="service">Service</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select bg-transparent" id="serviceStaff">
+                                                <option selected>Select staff member</option>
+                                            </select>
+                                            <label for="serviceStaff">Staff Member</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control bg-transparent"
+                                                id="serviceDiscount" placeholder="Discount (₹)">
+                                            <label for="serviceDiscount">Discount (₹)</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <button class="btn btn-primary w-100 py-3" type="button"
                                             onclick="addService()">Add Service</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select bg-transparent" id="product">
+                                                <option selected>Select a product</option>
+                                            </select>
+                                            <label for="product">Product</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control bg-transparent"
+                                                id="productQuantity" min="1" value="1">
+                                            <label for="productQuantity">Quantity</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control bg-transparent"
+                                                id="productDiscount" placeholder="Discount (%)">
+                                            <label for="productDiscount">Discount (%)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100 py-3" type="button"
+                                            onclick="addProduct()">Add Product</button>
                                     </div>
                                 </div>
                             </form>
@@ -172,12 +238,16 @@
                                 <ul id="serviceList" class="list-group"></ul>
                             </div>
                             <div class="mt-4">
+                                <h4>Products Added:</h4>
+                                <ul id="productList" class="list-group"></ul>
+                            </div>
+                            <div class="mt-4">
                                 <h4>Total:</h4>
                                 <p>Subtotal: ₹<span id="subtotal" class="highlight-red">0</span></p>
                                 <p>GST (18%): ₹<span id="gst" class="highlight-red">0</span></p>
                                 <h3>Grand Total: ₹<span id="grandTotal" class="highlight-red">0</span></h3>
                             </div>
-                            <div class="mt-4">
+                            <!-- <div class="mt-4">
                                 <h4>Payment Details:</h4>
                                 <div class="row g-3">
                                     <div class="col-md-6">
@@ -214,18 +284,50 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div> -->
+                            <div class="mt-4">
+                                <h4>Payment Details:</h4>
+                                <div class="row g-3">
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control bg-transparent" id="cashback"
+                                                placeholder="Cashback">
+                                            <label for="cashback">Cashback (₹)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select bg-transparent" id="paymentMethod">
+                                                <option selected>Select payment method</option>
+                                                <option value="cash">Cash</option>
+                                                <option value="upi">UPI</option>
+                                                <option value="wallet">Wallet</option>
+                                                <option value="card">Card</option>
+                                            </select>
+                                            <label for="paymentMethod">Payment Method</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control bg-transparent" id="amountPaid"
+                                                placeholder="Amount Paid">
+                                            <label for="amountPaid">Amount Paid (₹)</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="mt-4">
                                 <h3>Final Total: ₹<span id="finalTotal" class="highlight-red">0</span></h3>
                             </div>
+                            <!-- <div class="col-12 mt-4">
+                                <button class="btn btn-success w-100 py-3" type="button"
+                                    onclick="generateInvoice()">Generate Invoice</button>
+                            </div> -->
                             <div class="col-12 mt-4">
                                 <button class="btn btn-primary w-100 py-3" type="button"
                                     onclick="generateBill()">Generate Bill</button>
                             </div>
-                            <div class="col-12 mt-4">
-                                <button class="btn btn-success w-100 py-3" type="button"
-                                    onclick="generateInvoice()">Generate Invoice</button>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -246,9 +348,12 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.20/jspdf.plugin.autotable.min.js"></script>
 
     <script>
         let services = [];
+        let products = [];
         let subtotal = 0;
 
         // Toggle sidebar
@@ -257,14 +362,150 @@
             $("#wrapper").toggleClass("toggled");
         });
 
+        async function fetchStaffMembers() {
+            try {
+                const response = await fetch('http://localhost:5001/api/staff');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch staff members');
+                }
+                const staffMembers = await response.json();
+                populateStaffSelect(staffMembers);
+            } catch (error) {
+                console.error('Error fetching staff members:', error);
+                alert('Failed to fetch staff members. Please try again.');
+            }
+        }
+
+        function populateStaffSelect(staffMembers) {
+            const select = document.getElementById('serviceStaff');
+            staffMembers.forEach(staff => {
+                const option = document.createElement('option');
+                option.value = staff._id;
+                option.textContent = `${staff.firstName} ${staff.lastName}`;
+                option.dataset.role = staff.role;
+                select.appendChild(option);
+            });
+        }
+
+        async function fetchServices() {
+            try {
+                const response = await fetch('http://localhost:5001/api/services');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch services');
+                }
+                const services = await response.json();
+                populateServiceSelect(services);
+            } catch (error) {
+                console.error('Error fetching services:', error);
+                alert('Failed to fetch services. Please try again.');
+            }
+        }
+
+        function populateServiceSelect(services) {
+            const select = document.getElementById('service');
+            services.forEach(service => {
+                const option = document.createElement('option');
+                option.value = service._id;
+                option.textContent = `${service.serviceName} - ₹${service.price}`;
+                option.dataset.price = service.price;
+                select.appendChild(option);
+            });
+        }
+
+        async function fetchProducts() {
+            try {
+                const response = await fetch('http://localhost:5001/api/products');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                const products = await response.json();
+                populateProductSelect(products);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                alert('Failed to fetch products. Please try again.');
+            }
+        }
+
+        function populateProductSelect(products) {
+            const select = document.getElementById('product');
+            products.forEach(product => {
+                const option = document.createElement('option');
+                option.value = product._id;
+                option.textContent = `${product.productName} - ₹${product.price}`;
+                option.dataset.price = product.price;
+                select.appendChild(option);
+            });
+        }
+
+        async function fetchCustomerDetails(phoneNumber) {
+            try {
+                const response = await fetch(`http://localhost:5001/api/customers/phone/${phoneNumber}`);
+                console.log(response)
+                if (response.ok) {
+                    const customer = await response.json();
+                    document.getElementById('firstName').value = customer.firstName || '';
+                    document.getElementById('lastName').value = customer.lastName || '';
+                    document.getElementById('email').value = customer.email || '';
+                    document.getElementById('phoneNumber').value = customer.phoneNumber || phoneNumber;
+                } else {
+                    // Clear the fields if customer is not found
+                    document.getElementById('firstName').value = '';
+                    document.getElementById('lastName').value = '';
+                    document.getElementById('email').value = '';
+
+                    // Prompt to add new customer
+                    // if (confirm('Customer not found. Would you like to add a new customer?')) {
+                    //     addNewCustomer(phoneNumber);
+                    // }
+                }
+            } catch (error) {
+                console.error('Error fetching customer details:', error);
+                alert('Failed to fetch customer details. Please try again.');
+            }
+        }
+
+        async function addNewCustomer(phoneNumber) {
+            const firstName = prompt('Enter customer first name:');
+            const lastName = prompt('Enter customer last name:');
+            if (firstName && lastName) {
+                try {
+                    const response = await fetch('http://localhost:5001/api/customers', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            firstName,
+                            lastName,
+                            phoneNumber
+                        }),
+                    });
+                    if (response.ok) {
+                        alert('New customer added successfully!');
+                        fetchCustomerDetails(phoneNumber);
+                    } else {
+                        throw new Error('Failed to add new customer');
+                    }
+                } catch (error) {
+                    console.error('Error adding new customer:', error);
+                    alert('Failed to add new customer. Please try again.');
+                }
+            }
+        }
+
         function addService() {
             const serviceSelect = document.getElementById('service');
+            const staffSelect = document.getElementById('serviceStaff');
             const selectedService = serviceSelect.options[serviceSelect.selectedIndex];
-            const serviceName = selectedService.text;
-            const servicePrice = parseInt(selectedService.value);
+            const selectedStaff = staffSelect.options[staffSelect.selectedIndex];
+            const serviceName = selectedService.text.split(' - ')[0];
+            const servicePrice = parseFloat(selectedService.dataset.price);
+            const staffName = selectedStaff.text;
+            const discount = parseFloat(document.getElementById('serviceDiscount').value) || 0;
 
             if (servicePrice) {
-                services.push({ name: serviceName, price: servicePrice });
+                const finalPrice = Math.max(servicePrice - discount, 0); // Ensure price doesn't go below 0
+                services.push({ name: serviceName, price: servicePrice, staffName: staffName, discount: discount, finalPrice: finalPrice });
                 updateBill();
                 updateServiceList();
             }
@@ -277,10 +518,10 @@
                 const li = document.createElement('li');
                 li.className = 'list-group-item d-flex justify-content-between align-items-center';
                 li.innerHTML = `
-                    ${service.name}
-                    <span>₹${service.price}</span>
-                    <button class="btn btn-danger btn-sm" onclick="removeService(${index})">Remove</button>
-                `;
+            ${service.name} (Staff: ${service.staffName})
+            <span>₹${service.finalPrice.toFixed(2)} (Discount: ₹${service.discount.toFixed(2)})</span>
+            <button class="btn btn-danger btn-sm" onclick="removeService(${index})">Remove</button>
+        `;
                 serviceList.appendChild(li);
             });
         }
@@ -291,64 +532,69 @@
             updateServiceList();
         }
 
+        function addProduct() {
+            const productSelect = document.getElementById('product');
+            const selectedProduct = productSelect.options[productSelect.selectedIndex];
+            const productName = selectedProduct.text.split(' - ')[0];
+            const productPrice = parseFloat(selectedProduct.dataset.price);
+            const quantity = parseInt(document.getElementById('productQuantity').value);
+            const discountPercentage = parseFloat(document.getElementById('productDiscount').value) || 0;
+
+            if (productPrice && quantity > 0) {
+                const discount = (productPrice * quantity * discountPercentage) / 100;
+                const finalPrice = Math.max((productPrice * quantity) - discount, 0); // Ensure price doesn't go below 0
+                products.push({ name: productName, price: productPrice, quantity: quantity, discountPercentage: discountPercentage, discount: discount, finalPrice: finalPrice });
+                updateBill();
+                updateProductList();
+            }
+        }
+        function updateProductList() {
+            const productList = document.getElementById('productList');
+            productList.innerHTML = '';
+            products.forEach((product, index) => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                li.innerHTML = `
+            ${product.name} (x${product.quantity})
+            <span>₹${product.finalPrice.toFixed(2)} (Discount: ${product.discountPercentage}%)</span>
+            <button class="btn btn-danger btn-sm" onclick="removeProduct(${index})">Remove</button>
+        `;
+                productList.appendChild(li);
+            });
+        }
+
+        function removeProduct(index) {
+            products.splice(index, 1);
+            updateBill();
+            updateProductList();
+        }
+
         function updateBill() {
-            subtotal = services.reduce((total, service) => total + service.price, 0);
+            const serviceSubtotal = services.reduce((total, service) => total + service.finalPrice, 0);
+            const productSubtotal = products.reduce((total, product) => total + product.finalPrice, 0);
+            subtotal = serviceSubtotal + productSubtotal;
             const gst = subtotal * 0.18;
             const grandTotal = subtotal + gst;
 
             const cashback = parseFloat(document.getElementById('cashback').value) || 0;
-            const referralBonus = parseFloat(document.getElementById('referralBonus').value) || 0;
-            const finalTotal = grandTotal - cashback - referralBonus;
+            const finalTotal = Math.max(grandTotal - cashback, 0); // Ensure final total doesn't go below 0
 
             document.getElementById('subtotal').textContent = subtotal.toFixed(2);
             document.getElementById('gst').textContent = gst.toFixed(2);
             document.getElementById('grandTotal').textContent = grandTotal.toFixed(2);
             document.getElementById('finalTotal').textContent = finalTotal.toFixed(2);
         }
-
-        // Add event listeners to cashback and referral bonus inputs
-        document.getElementById('cashback').addEventListener('input', updateBill);
-        document.getElementById('referralBonus').addEventListener('input', updateBill);
-
-
-        // function generateBill() {
-        //     const customerName = document.getElementById('customerName').value;
-        //     const phoneNumber = document.getElementById('phoneNumber').value;
-        //     const cashback = parseFloat(document.getElementById('cashback').value) || 0;
-        //     const referralBonus = parseFloat(document.getElementById('referralBonus').value) || 0;
-        //     const paymentMethod = document.getElementById('paymentMethod').value;
-        //     const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
-
-        //     if (!customerName || !phoneNumber || services.length === 0 || !paymentMethod || amountPaid <= 0) {
-        //         alert('Please fill in all details, add at least one service, and provide payment information.');
-        //         return;
-        //     }
-
-        //     const grandTotal = parseFloat(document.getElementById('grandTotal').textContent);
-        //     const finalTotal = parseFloat(document.getElementById('finalTotal').textContent);
-
-        //     if (amountPaid < finalTotal) {
-        //         alert('The amount paid is less than the final total amount.');
-        //         return;
-        //     }
-
-        //     // Generate PDF
-        //     generatePDF(customerName, phoneNumber, paymentMethod, amountPaid);
-
-        //     // Clear all details
-        //     clearAllDetails();
-        // }
-
         async function generateBill() {
-            const customerName = document.getElementById('customerName').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
             const phoneNumber = document.getElementById('phoneNumber').value;
             const cashback = parseFloat(document.getElementById('cashback').value) || 0;
-            const referralBonus = parseFloat(document.getElementById('referralBonus').value) || 0;
             const paymentMethod = document.getElementById('paymentMethod').value;
             const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
 
-            if (!customerName || !phoneNumber || services.length === 0 || !paymentMethod || amountPaid <= 0) {
-                alert('Please fill in all details, add at least one service, and provide payment information.');
+            if (!email || !phoneNumber || (services.length === 0 && products.length === 0) || !paymentMethod || amountPaid <= 0) {
+                alert('Please fill in all details, add at least one service or product, and provide payment information.');
                 return;
             }
 
@@ -361,14 +607,16 @@
             }
 
             const billData = {
-                customerName,
+                firstName,
+                lastName,
+                email,
                 phoneNumber,
                 services,
+                products,
                 subtotal,
                 gst: subtotal * 0.18,
                 grandTotal,
                 cashback,
-                referralBonus,
                 finalTotal,
                 paymentMethod,
                 amountPaid
@@ -390,12 +638,8 @@
                 const savedBill = await response.json();
                 console.log('Bill saved:', savedBill);
 
-                // Generate PDF
-                generatePDF(customerName, phoneNumber, paymentMethod, amountPaid);
-
-                // Clear all details
                 clearAllDetails();
-
+                window.location.href = 'reports.html';
                 alert('Bill generated and saved successfully!');
             } catch (error) {
                 console.error('Error saving bill:', error);
@@ -403,133 +647,60 @@
             }
         }
 
-        function generatePDF(customerName, phoneNumber, paymentMethod, amountPaid) {
-            // Create a new jsPDF instance
-            const doc = new jspdf.jsPDF();
-
-            // Set font
-            doc.setFont("helvetica");
-
-            // Header
-            doc.setFontSize(22);
-            doc.setTextColor(0, 102, 204); // Blue color
-            doc.text('HairLab', 105, 20, null, null, 'center');
-            doc.setFontSize(12);
-            doc.setTextColor(102, 102, 102); // Gray color
-            doc.text('Professional Hair Salon', 105, 28, null, null, 'center');
-            doc.setFontSize(10);
-            doc.text('123 Main St, City, State 12345', 105, 34, null, null, 'center');
-            doc.text('Phone: (123) 456-7890', 105, 39, null, null, 'center');
-
-            // Customer Information
-            doc.setFontSize(11);
-            doc.setTextColor(0, 0, 0); // Black color
-            doc.text(`Bill To: ${customerName}`, 20, 55);
-            doc.text(`Phone: ${phoneNumber}`, 20, 61);
-            doc.text(`Date: ${new Date().toLocaleDateString()}`, 140, 55);
-            doc.text(`Invoice #: INV-${Math.floor(Math.random() * 10000)}`, 140, 61);
-
-            // Services Table
-            let startY = 75;
-            doc.autoTable({
-                startY: startY,
-                head: [['Service', 'Price']],
-                body: services.map(service => [service.name, `₹${service.price.toFixed(2)}`]),
-                theme: 'striped',
-                headStyles: { fillColor: [0, 102, 204], textColor: 255 },
-                columnStyles: {
-                    0: { cellWidth: 130 },
-                    1: { cellWidth: 50, halign: 'right' }
-                },
-            });
-
-            // Totals Table
-            startY = doc.lastAutoTable.finalY + 10;
-            const cashback = parseFloat(document.getElementById('cashback').value || 0);
-            const referralBonus = parseFloat(document.getElementById('referralBonus').value || 0);
-            const finalTotal = parseFloat(document.getElementById('finalTotal').textContent);
-
-            doc.autoTable({
-                startY: startY,
-                body: [
-                    ['Subtotal', `₹${subtotal.toFixed(2)}`],
-                    ['GST (18%)', `₹${(subtotal * 0.18).toFixed(2)}`],
-                    ['Grand Total', `₹${(subtotal * 1.18).toFixed(2)}`],
-                    ['Cashback', `₹${cashback.toFixed(2)}`],
-                    ['Referral Bonus', `₹${referralBonus.toFixed(2)}`],
-                    ['Final Total', `₹${finalTotal.toFixed(2)}`],
-                ],
-                theme: 'plain',
-                columnStyles: {
-                    0: { cellWidth: 130 },
-                    1: { cellWidth: 50, halign: 'right' }
-                },
-                styles: { fontSize: 11 },
-                foot: [['Payment Method', paymentMethod], ['Amount Paid', `₹${amountPaid.toFixed(2)}`]],
-                footStyles: { fillColor: [240, 240, 240] }
-            });
-
-            // Footer
-            const pageCount = doc.internal.getNumberOfPages();
-            for (let i = 1; i <= pageCount; i++) {
-                doc.setPage(i);
-                doc.setFontSize(8);
-                doc.setTextColor(128);
-                doc.text('Thank you for your business!', 105, 290, null, null, 'center');
-                doc.text(`Page ${i} of ${pageCount}`, 105, 295, null, null, 'center');
-            }
-
-            doc.save('HairLab_Bill.pdf');
-        }
         function clearAllDetails() {
             document.getElementById('billingForm').reset();
             document.getElementById('cashback').value = '';
-            document.getElementById('referralBonus').value = '';
             document.getElementById('paymentMethod').selectedIndex = 0;
             document.getElementById('amountPaid').value = '';
             services = [];
+            products = [];
             updateBill();
             updateServiceList();
+            updateProductList();
         }
+
         function generateInvoice() {
-            // Collect all the necessary data
             const grandTotal = parseFloat(document.getElementById('grandTotal').textContent);
             const cashback = parseFloat(document.getElementById('cashback').value) || 0;
-            const referralBonus = parseFloat(document.getElementById('referralBonus').value) || 0;
             const finalTotal = parseFloat(document.getElementById('finalTotal').textContent);
-
 
             const invoiceData = {
                 customerName: document.getElementById('customerName').value,
                 phoneNumber: document.getElementById('phoneNumber').value,
                 services: services,
+                products: products,
                 subtotal: subtotal,
                 gst: subtotal * 0.18,
                 grandTotal: grandTotal,
                 cashback: cashback,
-                referralBonus: referralBonus,
                 finalTotal: finalTotal,
                 paymentMethod: document.getElementById('paymentMethod').value,
                 amountPaid: parseFloat(document.getElementById('amountPaid').value) || 0
             };
 
-            // Store the invoice data in sessionStorage
             sessionStorage.setItem('invoiceData', JSON.stringify(invoiceData));
 
             clearAllDetails();
 
-            // Redirect to the invoice.html page
             window.location.href = 'invoice.html';
         }
+
         function logout() {
-            // Here you would typically clear any session data or perform any logout-related tasks
-            // For this example, we'll just redirect to the index.html page
             window.location.href = 'index.html';
         }
 
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchStaffMembers();
+            fetchServices();
+            fetchProducts();
+
+            document.getElementById('cashback').addEventListener('input', updateBill);
+            document.getElementById('phoneNumber').addEventListener('blur', function () {
+                fetchCustomerDetails(this.value);
+            });
+        });
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.20/jspdf.plugin.autotable.min.js"></script>
+
 </body>
 
 </html>

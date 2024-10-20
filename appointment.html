@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>HairLab - Appointment Booking</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Oswald:wght@600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        /* Custom styles for webapp layout */
+        body {
+            overflow-x: hidden;
+        }
+
+        #sidebar-wrapper {
+            min-height: 100vh;
+            margin-left: -15rem;
+            transition: margin 0.25s ease-out;
+        }
+
+        #sidebar-wrapper .sidebar-heading {
+            padding: 0.875rem 1.25rem;
+            font-size: 1.2rem;
+        }
+
+        #sidebar-wrapper .list-group {
+            width: 15rem;
+        }
+
+        #page-content-wrapper {
+            min-width: 100vw;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        @media (min-width: 768px) {
+            #sidebar-wrapper {
+                margin-left: 0;
+            }
+
+            #page-content-wrapper {
+                min-width: 0;
+                width: 100%;
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: -15rem;
+            }
+        }
+
+        .table-responsive {
+            margin-top: 20px;
+        }
+
+        .action-buttons .btn {
+            margin-right: 5px;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #appointmentsTable {
+            width: 100% !important;
+        }
+
+        #appointmentsTable th,
+        #appointmentsTable td {
+            white-space: nowrap;
+        }
+
+        @media screen and (max-width: 767px) {
+            .table-responsive {
+                border: none;
+            }
+        }
+
+        .nav-link .active {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-secondary border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading text-primary"><i class="fa fa-cut me-2"></i>HairLab</div>
+            <div class="list-group list-group-flush">
+                <a href="/dashboard.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Dashboard</a>
+                <a href="/customer.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Customer</a>
+                <a href="/staff.html" class="list-group-item list-group-item-action bg-secondary text-light">Staff</a>
+                <a href="/addServices.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Services</a>
+                <a href="/appointment.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light active">Appointments</a>
+                <a href="/products.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Products</a>
+                <a href="/billing.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Billing</a>
+                <a href="/reports.html"
+                    class="list-group-item list-group-item-action bg-secondary text-light">Reports</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-secondary border-bottom">
+                <button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <h1 class="mt-4">Appointment Booking</h1>
+
+                <!-- Tab Navigation -->
+                <ul class="nav nav-tabs" id="appointmentTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="book-appointment-tab" data-bs-toggle="tab"
+                            data-bs-target="#book-appointment" type="button" role="tab" aria-controls="book-appointment"
+                            aria-selected="true">Book Appointment</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="list-appointments-tab" data-bs-toggle="tab"
+                            data-bs-target="#list-appointments" type="button" role="tab"
+                            aria-controls="list-appointments" aria-selected="false">Appointments List</button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="appointmentTabsContent">
+                    <!-- Book Appointment Tab -->
+                    <div class="tab-pane fade show active" id="book-appointment" role="tabpanel"
+                        aria-labelledby="book-appointment-tab">
+                        <div class="row mt-3">
+                            <div class="col-lg-8">
+                                <div class="bg-secondary p-5">
+                                    <form id="bookAppointmentForm">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="tel" class="form-control bg-transparent"
+                                                        id="phoneNumber" placeholder="Phone Number" required>
+                                                    <label for="phoneNumber">Phone Number</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control bg-transparent"
+                                                        id="firstName" placeholder="First Name" required>
+                                                    <label for="firstName">First Name</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control bg-transparent" id="lastName"
+                                                        placeholder="Last Name" required>
+                                                    <label for="lastName">Last Name</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control bg-transparent" id="email"
+                                                        placeholder="Email" required>
+                                                    <label for="email">Email</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <select class="form-select bg-transparent" id="service" required>
+                                                        <option value="" selected disabled>Select a service</option>
+                                                    </select>
+                                                    <label for="service">Service</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <select class="form-select bg-transparent" id="staff" required>
+                                                        <option value="" selected disabled>Select a staff member
+                                                        </option>
+                                                    </select>
+                                                    <label for="staff">Staff Member</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="date" class="form-control bg-transparent" id="date"
+                                                        required>
+                                                    <label for="date">Date</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="time" class="form-control bg-transparent" id="time"
+                                                        required>
+                                                    <label for="time">Time</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating">
+                                                    <textarea class="form-control bg-transparent" placeholder="Notes"
+                                                        id="notes" style="height: 100px"></textarea>
+                                                    <label for="notes">Additional Notes (Optional)</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="btn btn-primary w-100 py-3" type="button"
+                                                    onclick="bookAppointment()">Book Appointment</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- List Appointments Tab -->
+                    <div class="tab-pane fade" id="list-appointments" role="tabpanel"
+                        aria-labelledby="list-appointments-tab">
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="bg-secondary p-5">
+                                    <div class="table-responsive">
+                                        <table id="appointmentsTable" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Customer</th>
+                                                    <th>Service</th>
+                                                    <th>Staff</th>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>Notes</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Table rows will be populated dynamically -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /#page-content-wrapper -->
+        </div>
+        <!-- /#wrapper -->
+
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/wow/wow.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
+        <script>
+            let appointmentsTable;
+
+            $(document).ready(function () {
+                // Toggle sidebar
+                $("#menu-toggle").click(function (e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("toggled");
+                });
+
+                // Initialize DataTable
+                appointmentsTable = $('#appointmentsTable').DataTable({
+                    responsive: true,
+                    scrollX: true,
+                    order: [[3, 'asc'], [4, 'asc']], // Sort by date and time ascending
+                    columnDefs: [
+                        { targets: 6, orderable: false } // Disable sorting for the Actions column
+                    ],
+                    autoWidth: false,
+                    language: {
+                        searchPlaceholder: "Search appointments"
+                    },
+                    dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                        '<"row"<"col-sm-12"tr>>' +
+                        '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+                });
+
+                // Fetch appointments when the list tab is shown
+                $('#list-appointments-tab').on('shown.bs.tab', function (e) {
+                    fetchAppointments();
+                });
+
+                if (document.querySelector('#list-appointments-tab.active')) {
+                    fetchAppointments();
+                }
+
+                document.getElementById('phoneNumber').addEventListener('blur', function () {
+                    fetchCustomerDetails(this.value);
+                });
+
+                // Initialize the page
+                initializePage();
+            });
+
+            async function initializePage() {
+                await Promise.all([
+                    fetchCustomers(),
+                    fetchServices(),
+                    fetchStaff()
+                ]);
+
+                // Fetch appointments if we're on the list tab
+                if (document.querySelector('#list-appointments-tab.active')) {
+                    fetchAppointments();
+                }
+            }
+
+            async function fetchCustomers() {
+                try {
+                    const response = await fetch('http://localhost:5001/api/customers');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch customers');
+                    }
+                    const customers = await response.json();
+                    populateCustomerSelect(customers);
+                } catch (error) {
+                    console.error('Error fetching customers:', error);
+                }
+            }
+
+            async function fetchCustomerDetails(phoneNumber) {
+                try {
+                    const response = await fetch(`http://localhost:5001/api/customers/phone/${phoneNumber}`);
+                    if (response.ok) {
+                        const customer = await response.json();
+                        document.getElementById('firstName').value = customer.firstName || '';
+                        document.getElementById('lastName').value = customer.lastName || '';
+                        document.getElementById('email').value = customer.email || '';
+                        document.getElementById('phoneNumber').value = customer.phoneNumber || phoneNumber;
+                    } else {
+                        // Clear the fields if customer is not found
+                        document.getElementById('firstName').value = '';
+                        document.getElementById('lastName').value = '';
+                        document.getElementById('email').value = '';
+                    }
+                } catch (error) {
+                    console.error('Error fetching customer details:', error);
+                }
+            }
+
+            async function addNewCustomer(phoneNumber, firstName, lastName, email) {
+                try {
+                    const response = await fetch('http://localhost:5001/api/customers', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            firstName,
+                            lastName,
+                            phoneNumber,
+                            email
+                        }),
+                    });
+                    if (response.ok) {
+                        alert('New customer added successfully!');
+                        return await response.json();
+                    } else {
+                        throw new Error('Failed to add new customer');
+                    }
+                } catch (error) {
+                    console.error('Error adding new customer:', error);
+                    alert('Failed to add new customer. Please try again.');
+                    return null;
+                }
+            }
+
+
+
+            async function fetchServices() {
+                try {
+                    const response = await fetch('http://localhost:5001/api/appointments/services/list');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch services');
+                    }
+                    const services = await response.json();
+                    populateServiceSelect(services);
+                } catch (error) {
+                    console.error('Error fetching services:', error);
+                    alert('Failed to fetch services. Please try again.');
+                }
+            }
+
+            async function fetchStaff() {
+                try {
+                    const response = await fetch('http://localhost:5001/api/staff');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch staff');
+                    }
+                    const staff = await response.json();
+                    populateStaffSelect(staff);
+                } catch (error) {
+                    console.error('Error fetching staff:', error);
+                    alert('Failed to fetch staff. Please try again.');
+                }
+            }
+
+            function populateCustomerSelect(customers) {
+                const select = document.getElementById('customer');
+                customers.forEach(customer => {
+                    const option = document.createElement('option');
+                    option.value = customer._id;
+                    option.textContent = `${customer.firstName} ${customer.lastName}`;
+                    select.appendChild(option);
+                });
+            }
+
+            function populateServiceSelect(services) {
+                const select = document.getElementById('service');
+                services.forEach(service => {
+                    const option = document.createElement('option');
+                    option.value = service._id;
+                    option.textContent = service.serviceName;
+                    select.appendChild(option);
+                });
+            }
+
+            function populateStaffSelect(staffMembers) {
+                const select = document.getElementById('staff');
+                staffMembers.forEach(staff => {
+                    const option = document.createElement('option');
+                    option.value = staff._id;
+                    option.textContent = `${staff.firstName} ${staff.lastName}`;
+                    select.appendChild(option);
+                });
+            }
+
+
+            async function bookAppointment() {
+                const phoneNumber = document.getElementById('phoneNumber').value;
+                const firstName = document.getElementById('firstName').value;
+                const lastName = document.getElementById('lastName').value;
+                const email = document.getElementById('email').value;
+                const service = document.getElementById('service').value;
+                const staff = document.getElementById('staff').value;
+                const date = document.getElementById('date').value;
+                const time = document.getElementById('time').value;
+                const notes = document.getElementById('notes').value;
+
+                if (!phoneNumber || !firstName || !lastName || !email || !service || !staff || !date || !time) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+
+                let customer;
+                try {
+                    const response = await fetch(`http://localhost:5001/api/customers/phone/${phoneNumber}`);
+                    if (!response.ok) {
+                        // If customer doesn't exist, add a new one
+                        customer = await addNewCustomer(phoneNumber, firstName, lastName, email);
+                        if (!customer) {
+                            return; // Exit if customer creation failed
+                        }
+                    } else {
+                        customer = await response.json();
+                    }
+                } catch (error) {
+                    console.error('Error checking/adding customer:', error);
+                    alert('Failed to process customer information. Please try again.');
+                    return;
+                }
+
+                const appointmentData = {
+                    customer: customer._id,
+                    service,
+                    staff,
+                    dateTime: `${date}T${time}`,
+                    notes
+                };
+
+                try {
+                    const response = await fetch('http://localhost:5001/api/appointments', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(appointmentData),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to book appointment');
+                    }
+
+                    const savedAppointment = await response.json();
+                    console.log('Appointment booked:', savedAppointment);
+
+                    // Clear the form
+                    document.getElementById('bookAppointmentForm').reset();
+
+                    alert('Appointment booked successfully!');
+
+                    // Refresh the appointment list and switch to the list tab
+                    fetchAppointments();
+                    document.getElementById('list-appointments-tab').click();
+                } catch (error) {
+                    console.error('Error booking appointment:', error);
+                    alert('Failed to book the appointment. Please try again.');
+                }
+            }
+
+            async function fetchAppointments() {
+                try {
+                    const response = await fetch('http://localhost:5001/api/appointments');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch appointments');
+                    }
+                    const appointments = await response.json();
+                    console.log('Fetched appointments:', appointments); // Add this line for debugging
+                    displayAppointments(appointments);
+                } catch (error) {
+                    console.error('Error fetching appointments:', error);
+                    alert('Failed to fetch appointments. Please try again.');
+                }
+            }
+
+            function displayAppointments(appointments) {
+                appointmentsTable.clear();
+
+                appointments.forEach(appointment => {
+                    const dateTime = new Date(appointment.dateTime);
+                    const customerName = appointment.customer ? `${appointment.customer.firstName} ${appointment.customer.lastName}` : 'N/A';
+                    const serviceName = appointment.service ? appointment.service.serviceName : 'N/A';
+                    const staffName = appointment.staff ? `${appointment.staff.firstName} ${appointment.staff.lastName}` : 'N/A';
+
+                    appointmentsTable.row.add([
+                        customerName,
+                        serviceName,
+                        staffName,
+                        dateTime.toLocaleDateString(),
+                        dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                        appointment.notes || '',
+                        `<button class="btn btn-sm btn-primary" onclick="editAppointment('${appointment._id}')">Edit</button>
+             <button class="btn btn-sm btn-danger" onclick="deleteAppointment('${appointment._id}')">Cancel</button>`
+                    ]);
+                });
+
+                appointmentsTable.draw();
+                console.log('Appointments displayed:', appointments.length);
+            }
+
+            async function editAppointment(appointmentId) {
+                try {
+                    const response = await fetch(`http://localhost:5001/api/appointments/${appointmentId}`);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch appointment details');
+                    }
+                    const appointment = await response.json();
+
+                    // Populate the form with appointment details
+                    document.getElementById('customer').value = appointment.customer._id;
+                    document.getElementById('service').value = appointment.service._id;
+                    document.getElementById('staff').value = appointment.staff._id;
+                    const dateTime = new Date(appointment.dateTime);
+                    document.getElementById('date').value = dateTime.toISOString().split('T')[0];
+                    document.getElementById('time').value = dateTime.toTimeString().slice(0, 5);
+                    document.getElementById('notes').value = appointment.notes || '';
+
+                    // Change the book button to an update button
+                    const submitButton = document.querySelector('#bookAppointmentForm button[type="button"]');
+                    submitButton.textContent = 'Update Appointment';
+                    submitButton.onclick = () => updateAppointment(appointmentId);
+
+                    // Switch to the book appointment tab
+                    document.getElementById('book-appointment-tab').click();
+                } catch (error) {
+                    console.error('Error fetching appointment details:', error);
+                    alert('Failed to fetch appointment details. Please try again.');
+                }
+            }
+
+            async function updateAppointment(appointmentId) {
+                const appointmentData = {
+                    customer: document.getElementById('customer').value,
+                    service: document.getElementById('service').value,
+                    staff: document.getElementById('staff').value,
+                    dateTime: `${document.getElementById('date').value}T${document.getElementById('time').value}`,
+                    notes: document.getElementById('notes').value
+                };
+
+                try {
+                    const response = await fetch(`http://localhost:5001/api/appointments/${appointmentId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(appointmentData),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to update appointment');
+                    }
+
+                    alert('Appointment updated successfully!');
+
+                    // Reset the form and button
+                    document.getElementById('bookAppointmentForm').reset();
+                    const submitButton = document.querySelector('#bookAppointmentForm button[type="button"]');
+                    submitButton.textContent = 'Book Appointment';
+                    submitButton.onclick = bookAppointment;
+
+                    // Refresh the appointment list and switch to the list tab
+                    fetchAppointments();
+                    document.getElementById('list-appointments-tab').click();
+                } catch (error) {
+                    console.error('Error updating appointment:', error);
+                    alert('Failed to update the appointment. Please try again.');
+                }
+            }
+
+            async function deleteAppointment(appointmentId) {
+                if (confirm('Are you sure you want to cancel this appointment?')) {
+                    try {
+                        const response = await fetch(`http://localhost:5001/api/appointments/${appointmentId}`, {
+                            method: 'DELETE',
+                        });
+                        if (!response.ok) {
+                            throw new Error('Failed to cancel appointment');
+                        }
+                        fetchAppointments(); // Refresh the appointment list
+                        alert('Appointment cancelled successfully.');
+                    } catch (error) {
+                        console.error('Error cancelling appointment:', error);
+                        alert('Failed to cancel the appointment. Please try again.');
+                    }
+                }
+            }
+
+            function logout() {
+                // Here you would typically clear any session data or perform any logout-related tasks
+                // For this example, we'll just redirect to the index.html page
+                window.location.href = 'index.html';
+            }
+        </script>
+</body>
+
+</html>
